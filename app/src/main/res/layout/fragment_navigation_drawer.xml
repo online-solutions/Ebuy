@@ -1,14 +1,14 @@
-<org.lucasr.dspec.DesignSpecFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:designSpec="@raw/spec">
+<!--<org.lucasr.dspec.DesignSpecFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:designSpec="@raw/spec">-->
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEE"
+        android:background="@android:color/white"
         tools:context="demo.beta.ebuy.activities.NavigationDrawerFragment">
 
         <LinearLayout
@@ -37,4 +37,4 @@
         </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
-</org.lucasr.dspec.DesignSpecFrameLayout>
+<!--</org.lucasr.dspec.DesignSpecFrameLayout>-->

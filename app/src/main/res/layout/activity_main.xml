@@ -16,13 +16,24 @@
             android:id="@+id/app_bar"
             layout="@layout/app_bar"/>
 
-        <demo.beta.ebuy.tabs.SlidingTabLayout
-            android:id="@+id/tabs"
+        <!-- for icon tabs -->
+        <it.neokree.materialtabs.MaterialTabHost
+            android:id="@+id/materialTabHost"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="48dp"
+            app:iconColor="@android:color/white"
+            app:primaryColor="@color/primaryColor"
+            app:accentColor="@color/accentColor"
+            app:hasIcons="true"/>
+
+        <!--<demo.beta.ebuy.tabs.SlidingTabLayout-->
+            <!--android:id="@+id/tabs"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
+            android:background="@color/colorMainBg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

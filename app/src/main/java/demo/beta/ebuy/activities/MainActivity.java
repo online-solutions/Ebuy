@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -22,14 +23,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import demo.beta.ebuy.R;
-import demo.beta.ebuy.tabs.SlidingTabLayout;
+import demo.beta.ebuy.adapter.MyFragment;
+import it.neokree.materialtabs.MaterialTab;
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MaterialTabListener{
 
     private Toolbar toolbar;
     private ViewPager mPager;
-    private SlidingTabLayout mTabs;
+    private MaterialTabHost tabHost;
+//    private SlidingTabLayout mTabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +44,8 @@ public class MainActivity extends ActionBarActivity {
         // init
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         mPager = (ViewPager) findViewById(R.id.pager);
-        mTabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
+//        mTabs = (SlidingTabLayout) findViewById(R.id.tabs);
 
 
         setSupportActionBar(toolbar);
@@ -49,15 +55,28 @@ public class MainActivity extends ActionBarActivity {
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(adapter);
+        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                tabHost.setSelectedNavigationItem(position);
+            }
+        });
 
-
-        mTabs.setCustomTabView(R.layout.customer_tab_view, R.id.tabText);
-        mTabs.setDistributeEvenly(true);
-
-        mTabs.setBackgroundColor(getResources().getColor(R.color.primaryColor));
-        mTabs.setSelectedIndicatorColors(getResources().getColor(R.color.accentColor));
-        mTabs.setViewPager(mPager);
+        for(int i = 0; i < adapter.getCount(); i++){
+            tabHost.addTab(
+                    tabHost.newTab().setIcon(adapter.getIcon(i)).setTabListener(this)
+            );
+        }
+//
+//
+//        mTabs.setCustomTabView(R.layout.customer_tab_view, R.id.tabText);
+//        mTabs.setDistributeEvenly(true);
+//
+//        mTabs.setBackgroundColor(getResources().getColor(R.color.primaryColor));
+//        mTabs.setSelectedIndicatorColors(getResources().getColor(R.color.accentColor));
+//        mTabs.setViewPager(mPager);
     }
 
 
@@ -76,9 +95,9 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
         if(id == R.id.item_refresh)
             Toast.makeText(getApplicationContext(), "Refresh list", Toast.LENGTH_SHORT).show();
         if(id == R.id.item_search)
@@ -87,13 +106,28 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class MyPagerAdapter extends FragmentPagerAdapter{
-        String[] tabText;
-        int[] icons = {R.drawable.ic_search, R.drawable.ic_drinks, R.drawable.ic_dessert};
+    @Override
+    public void onTabSelected(MaterialTab materialTab) {
+        mPager.setCurrentItem(materialTab.getPosition());
+    }
+
+    @Override
+    public void onTabReselected(MaterialTab materialTab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(MaterialTab materialTab) {
+
+    }
+
+    class MyPagerAdapter extends FragmentStatePagerAdapter {
+//        String[] tabText;
+        int[] icons = {R.drawable.ic_food, R.drawable.ic_drinks, R.drawable.ic_dessert};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
-            tabText = getResources().getStringArray(R.array.tabs);
+//            tabText = getResources().getStringArray(R.array.tabs);
         }
 
         @Override
@@ -104,39 +138,26 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Drawable drawable = getResources().getDrawable(icons[position]);
-            drawable.setBounds(0,0,36,36);
-            ImageSpan imageSpan = new ImageSpan(drawable);
-            SpannableString spannableString = new SpannableString(" ");
-            spannableString.setSpan(imageSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return spannableString;
+            return getResources().getStringArray(R.array.tabs)[position];
+//            Drawable drawable = getResources().getDrawable(icons[position]);
+//            drawable.setBounds(0,0,36,36);
+//            ImageSpan imageSpan = new ImageSpan(drawable);
+//            SpannableString spannableString = new SpannableString(" ");
+//            spannableString.setSpan(imageSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            return spannableString;
+
+
         }
 
         @Override
         public int getCount() {
             return 3;
         }
-    }
 
-    public static class MyFragment extends Fragment{
-        private TextView textView;
-        public static MyFragment getInstance(int position){
-            MyFragment myFragment = new MyFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("position", position);
-            myFragment.setArguments(bundle);
-            return myFragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View layout = inflater.inflate(R.layout.my_fragment, container, false);
-            textView = (TextView) layout.findViewById(R.id.position);
-            Bundle bundle = getArguments();
-            if(bundle!=null){
-                textView.setText("Page number = " + bundle.getInt("position"));
-            }
-            return layout;
+        private Drawable getIcon(int position){
+            return getResources().getDrawable(icons[position]);
         }
     }
+
+
 }
