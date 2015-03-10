@@ -1,4 +1,4 @@
-package demo.beta.ebuy;
+package demo.beta.ebuy.activities;
 
 
 import android.content.Context;
@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import demo.beta.ebuy.R;
 import demo.beta.ebuy.activities.SubActivity;
 import demo.beta.ebuy.adapter.RecycleAdapter;
 import demo.beta.ebuy.model.Information;

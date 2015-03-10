@@ -5,22 +5,29 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="demo.beta.ebuy.MainActivity" >
+        android:orientation="vertical"
+        tools:context="demo.beta.ebuy.activities.MainActivity" >
 
         <include
             android:id="@+id/app_bar"
             layout="@layout/app_bar"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/app_bar"
-            android:text="@string/hello_world" />
+        <demo.beta.ebuy.tabs.SlidingTabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
     
     <fragment
         android:id="@+id/fragment_navigation_drawer"
@@ -28,7 +35,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:layout="@layout/fragment_navigation_drawer"
-        android:name="demo.beta.ebuy.NavigationDrawerFragment"
+        android:name="demo.beta.ebuy.activities.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
 </android.support.v4.widget.DrawerLayout>
 
