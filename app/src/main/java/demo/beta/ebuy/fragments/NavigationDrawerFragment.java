@@ -1,4 +1,4 @@
-package demo.beta.ebuy.activities;
+package demo.beta.ebuy.fragments;
 
 
 import android.content.Context;

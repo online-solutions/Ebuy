@@ -1,29 +1,24 @@
 package demo.beta.ebuy.activities;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import demo.beta.ebuy.R;
-import demo.beta.ebuy.adapter.MyFragment;
+import demo.beta.ebuy.fragments.BoxOfficeFragment;
+import demo.beta.ebuy.fragments.MyFragment;
+import demo.beta.ebuy.fragments.NavigationDrawerFragment;
+import demo.beta.ebuy.fragments.SearchFragment;
+import demo.beta.ebuy.fragments.UpComingFragment;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -35,6 +30,11 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private ViewPager mPager;
     private MaterialTabHost tabHost;
 //    private SlidingTabLayout mTabs;
+
+    public static final int MOVIES_SEARCH_RESULT = 0;
+    public static final int MOVIES_HITS = 1;
+    public static final int MOVIES_UPCOMING = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,8 +132,23 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         @Override
         public Fragment getItem(int position) {
-            MyFragment myFragment = MyFragment.getInstance(position);
-            return myFragment;
+            // use for testing
+            // show only text "tab = 0,1,2"
+//            MyFragment myFragment = MyFragment.getInstance(position);
+//            return myFragment;
+            Fragment fragment = null;
+            switch (position){
+                case MOVIES_SEARCH_RESULT:
+                    fragment = SearchFragment.newInstance("","");
+                    break;
+                case MOVIES_HITS:
+                    fragment = BoxOfficeFragment.newInstance("","");
+                    break;
+                case MOVIES_UPCOMING:
+                    fragment = UpComingFragment.newInstance("", "");
+                    break;
+            }
+            return fragment;
         }
 
         @Override
